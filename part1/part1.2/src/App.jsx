@@ -14,9 +14,6 @@ const Statistics = ({good, neutral, bad, reviewHistory}) => {
   }
 
   function pos() {
-    if (reviewHistory.length === 0) {
-      return 0
-    }
     let numPos = 0;
     for (let i = 0; i < reviewHistory.length; i++) {
         if (reviewHistory[i] === 'G') {
@@ -26,6 +23,11 @@ const Statistics = ({good, neutral, bad, reviewHistory}) => {
     return numPos/reviewHistory.length * 100
   }
 
+  if (reviewHistory.length === 0) {
+    return (
+      <p>No feedback given</p>
+    );
+  };
   return (
     <div>
       <p>good {good}</p>
