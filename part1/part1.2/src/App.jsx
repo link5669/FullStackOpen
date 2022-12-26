@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
 
+const StatisticLine = ({text, value}) => {
+  return (
+    <p>{text} {value}</p>
+  );
+};
+
 const Statistics = ({good, neutral, bad, reviewHistory}) => {
   function avg() {
     let avg = 0;
@@ -10,7 +16,7 @@ const Statistics = ({good, neutral, bad, reviewHistory}) => {
         avg -= (1/reviewHistory.length)
       }
     }
-    return avg
+    return avg + '%'
   }
 
   function pos() {
@@ -30,12 +36,24 @@ const Statistics = ({good, neutral, bad, reviewHistory}) => {
   };
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {reviewHistory.length}</p>
-      <p>average {avg()}</p>
-      <p>positve {pos()}%</p>
+      <StatisticLine
+        text="good"
+        value={good}/>
+      <StatisticLine
+        text="neutral"
+        value={neutral}/>
+      <StatisticLine
+        text="bad"
+        value={bad}/>
+      <StatisticLine
+        text="all"
+        value={reviewHistory.length}/>
+      <StatisticLine
+        text="avg"
+        value={avg()}/>
+      <StatisticLine
+        text="percent positive"
+        value={pos()}/>
     </div>
   )
 }
