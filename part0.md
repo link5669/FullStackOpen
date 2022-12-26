@@ -10,4 +10,4 @@
   Browser->>Server: Fetch data of the notes
   Server->>Browser: Sends data of the notes
   note over Server:
-  Data is sent via POST request. Server parses data from the request and adds it to the list of notes```
+  data is sent via POST request. Server parses data from the request and adds it to the list of notes```
