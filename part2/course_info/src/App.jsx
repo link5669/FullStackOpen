@@ -1,4 +1,5 @@
 import Course from './components/Course';
+import Sum from './components/Sum';
 
 const App = () => {
   const course = {
@@ -23,7 +24,12 @@ const App = () => {
     ]
   }
 
-  return <Course course={course} />
+  return (
+  <div>
+    <Course course={course} />
+    <Sum course={course} />
+  </div>
+  )
 }
 
 export default App
