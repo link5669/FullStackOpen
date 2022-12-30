@@ -2,16 +2,16 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '609-111-1111' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const addPerson = (e) => {
     e.preventDefault()
-    let newObj = {name: newName}
+    let newObj = {name: newName, number: newNumber}
     let flag = false
     for (let i = 0; i < persons.length; i++) {
-      console.log(newName, persons[i].name)
       if (newName === persons[i].name) {
         console.log(newName, persons[i].name)
         flag = true
@@ -24,8 +24,12 @@ const App = () => {
     }
   }
   
-  const handleChange = (e) => {
+  const handleNameChange = (e) => {
     setNewName(e.target.value)
+  }
+
+  const handleNumberChange = (e) => {
+    setNewNumber(e.target.value)
   }
 
   return (
@@ -34,8 +38,12 @@ const App = () => {
       <form onSubmit={addPerson}>
         <div>
           name: <input 
-          onChange={handleChange}
+          onChange={handleNameChange}
           value={newName}
+          />
+          number: <input 
+          onChange={handleNumberChange}
+          value={newNumber}
           />
         </div>
         <div>
@@ -44,7 +52,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map(person => 
-        <p>{person.name}</p>
+        <p>{person.name}: {person.number}</p>
       )}
     </div>
   )
