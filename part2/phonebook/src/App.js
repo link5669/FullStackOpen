@@ -1,4 +1,3 @@
-import { toHaveDisplayValue } from '@testing-library/jest-dom/dist/matchers'
 import { useState } from 'react'
 
 const App = () => {
@@ -9,9 +8,20 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
-    console.log(persons)
-    setPersons(persons.concat({name: newName}))
-    console.log(persons)
+    let newObj = {name: newName}
+    let flag = false
+    for (let i = 0; i < persons.length; i++) {
+      console.log(newName, persons[i].name)
+      if (newName === persons[i].name) {
+        console.log(newName, persons[i].name)
+        flag = true
+      }
+    }
+    if (!flag) {
+      setPersons(persons.concat(newObj))
+    } else {
+      alert(`${newObj.name} is already present!`)
+    }
   }
   
   const handleChange = (e) => {
