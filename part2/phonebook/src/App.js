@@ -1,18 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import AddPerson from './components/AddPerson'
 import People from './components/People'
 import Search from './components/Search'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '609-111-1111' }
-  ]) 
-  const [allPersons, setAllPersons] = useState([
-    { name: 'Arto Hellas', number: '609-111-1111' }
-  ]) 
+  const [persons, setPersons] = useState([{name: 'mia', number: '6092137400'}]) 
+  const [allPersons, setAllPersons] = useState([{name: 'mia', number: '6092137400'}]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
+  const hook = () => {
+    axios
+      .get('http://localhost:3001/db')
+      .then(response => {
+        let dataArr = []
+        let temp = response.data.persons
+        for (let i = 0; i < temp; i++) {
+          dataArr.push([{name: temp[i].name, number: temp[i].number}])
+        }
+        setPersons(dataArr);
+        setAllPersons(dataArr)
+      })
+  };
+
+  useEffect(hook, []);
   const addPerson = (e) => {
     e.preventDefault()
     let newObj = {name: newName, number: newNumber}
