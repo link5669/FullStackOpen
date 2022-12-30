@@ -1,11 +1,7 @@
 const Course = ({course}) => {
-    let sum = 0;
-    course.parts.map(part => {
-        sum += part.exercises
-        }
-      )
+    let total = course.parts.reduce((partialSum, a) => partialSum + a.exercises, 0);
     return (
-        <p><b>total of {sum} exercises</b></p>
+        <p><b>total of {total} exercises</b></p>
     );
   };
 
