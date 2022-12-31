@@ -3,6 +3,7 @@ import axios from 'axios'
 import Results from './components/Results'
 
 function App() {
+  
   const [countries, setCountries] = useState([])
   const [allCountries, setAllCountries] = useState([])
   
@@ -16,11 +17,9 @@ function App() {
   useEffect(hook, []);
 
   const handleFormChange = (e) => {
-    console.log(e.target.value)
     let filtered = allCountries.filter(country => {
       let name = country.name.common.toLowerCase()
       let input = e.target.value.toLowerCase()
-      console.log(name, input, name.includes(input))
       return name.includes(input)
     })
     let temp = []
@@ -33,10 +32,8 @@ function App() {
       temp.push([{name: filtered[i].name.common, 
                  capital: filtered[i].capital[0],
                  flag: filtered[i].flag}])
-      console.log(temp)
     }
     setCountries(temp)
-    console.log(temp[0])
   }
 
   return (
