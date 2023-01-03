@@ -3,12 +3,14 @@ import AddPerson from './components/AddPerson'
 import People from './components/People'
 import Search from './components/Search'
 import phonebookService from './services/phonebook'
+import Error from './components/Error'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [allPersons, setAllPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const hook = () => {
     phonebookService.getAll().then(response =>  {
@@ -59,7 +61,6 @@ const App = () => {
           }
         })
         setPersons(newPersons)
-        console.log(persons)
         newPersons = []
         allPersons.forEach(person => {
           if (person.name !== newObj[0].name) {
@@ -72,6 +73,10 @@ const App = () => {
         setAllPersons(newPersons)
       }
     }
+    setErrorMessage("Added person!")
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   }
   
   const handleNameChange = (e) => {
@@ -105,6 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Error message={errorMessage}/>
       <Search handleSearchChange={handleSearchChange}/>
       <AddPerson 
         handleNameChange={handleNameChange}

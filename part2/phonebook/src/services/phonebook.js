@@ -13,7 +13,6 @@ const create = newObject => {
 }
 
 const update = (newObject) => {
-  console.log(newObject)
   const request = axios.put(`${dataUrl}/${newObject.id}`, newObject)
   return request.then(response => response.data)
 }
