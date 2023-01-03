@@ -67,7 +67,14 @@ const App = () => {
             newPersons.push(person)
           } else {
             newPersons.push({name: person.name, number:newObj[0].number, id: person.id})
-            phonebookService.update({name: person.name, number:newObj[0].number, id: person.id})
+            phonebookService
+              .update({name: person.name, number:newObj[0].number, id: person.id})
+              .catch(() => {
+                setErrorMessage("Already deleted!")
+                setTimeout(() => {
+                  setErrorMessage(null)
+                }, 5000)
+              })
           }
         })
         setAllPersons(newPersons)
@@ -101,7 +108,7 @@ const App = () => {
     });
     setPersons(filtered)
     var filteredAll = allPersons.filter(function(value, index, arr){ 
-      return person.name !== person.name;
+      return value.name !== person.name;
     });
     setAllPersons(filteredAll)
     phonebookService.deleteObj(person)
