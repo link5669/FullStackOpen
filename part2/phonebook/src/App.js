@@ -12,18 +12,15 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   const hook = () => {
-    phonebookService.getAll
-    axios
-      .get('http://localhost:3001/db')
-      .then(response => {
-        let jsonData = response.data.persons
-        let dataArr = []
-        for (let i = 0; i < jsonData.length; i++) {
-          dataArr.push({name: jsonData[i].name, number: jsonData[i].number})
-        }
-        setPersons(dataArr)
-        setAllPersons(dataArr)
-      })
+    phonebookService.getAll().then(response =>  {
+      let jsonData = response.persons
+      let dataArr = []
+      for (let i = 0; i < jsonData.length; i++) {
+        dataArr.push({name: jsonData[i].name, number: jsonData[i].number})
+      }
+      setPersons(dataArr)
+      setAllPersons(dataArr)
+    })
   };
 
   useEffect(hook, []);
@@ -39,11 +36,7 @@ const App = () => {
     }
     if (!flag) {
       setAllPersons(persons.concat(newObj))
-      axios
-        .post('http://localhost:3001/persons', {name: newName, number: newNumber})
-        .then(response => {
-        console.log(response)
-      })
+      phonebookService.create({name: newName, number: newNumber})
       setPersons(persons.concat(newObj))
     } else {
       alert(`${newObj.name} is already present!`)
