@@ -24,9 +24,20 @@ const App = () => {
 
   useEffect(hook, []);
   
+  const getLastID = () => {
+    let lastid = 0
+    for (let i = 0; i < persons.length; i++) {
+      if (persons[i].id > lastid) {
+        lastid = persons[i].id
+      }
+    }
+    return lastid
+  }
+
   const addPerson = (e) => {
     e.preventDefault()
-    let newObj = [{name: newName, number: newNumber, id: (persons.length + 1)}]
+    let newID = (getLastID() + 1)
+    let newObj = [{name: newName, number: newNumber, id: newID}]
     let flag = false
     for (let i = 0; i < persons.length; i++) {
       if (newName === persons[i].name) {
@@ -35,10 +46,31 @@ const App = () => {
     }
     if (!flag) {
       setAllPersons(persons.concat(newObj))
-      phonebookService.create({name: newName, number: newNumber, id: (persons.length + 1)})
+      phonebookService.create({name: newName, number: newNumber, id: newID})
       setPersons(persons.concat(newObj))
     } else {
-      alert(`${newObj.name} is already present!`)
+      if (window.confirm(`Replace ${newObj.name}'s old number with the new one?'`)) {
+        let newPersons = []
+        persons.forEach(person => {
+          if (person.name !== newObj[0].name) {
+            newPersons.push(person)
+          } else {
+            newPersons.push({name: person.name, number:newObj[0].number, id: person.id})
+          }
+        })
+        setPersons(newPersons)
+        console.log(persons)
+        newPersons = []
+        allPersons.forEach(person => {
+          if (person.name !== newObj[0].name) {
+            newPersons.push(person)
+          } else {
+            newPersons.push({name: person.name, number:newObj[0].number, id: person.id})
+            phonebookService.update({name: person.name, number:newObj[0].number, id: person.id})
+          }
+        })
+        setAllPersons(newPersons)
+      }
     }
   }
   
