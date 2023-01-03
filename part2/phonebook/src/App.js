@@ -3,40 +3,47 @@ import axios from 'axios'
 import AddPerson from './components/AddPerson'
 import People from './components/People'
 import Search from './components/Search'
+import phonebookService from './services/phonebook'
 
 const App = () => {
-  const [persons, setPersons] = useState([{name: 'mia', number: '6092137400'}]) 
-  const [allPersons, setAllPersons] = useState([{name: 'mia', number: '6092137400'}]) 
+  const [persons, setPersons] = useState([]) 
+  const [allPersons, setAllPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
   const hook = () => {
+    phonebookService.getAll
     axios
       .get('http://localhost:3001/db')
       .then(response => {
+        let jsonData = response.data.persons
         let dataArr = []
-        let temp = response.data.persons
-        for (let i = 0; i < temp; i++) {
-          dataArr.push([{name: temp[i].name, number: temp[i].number}])
+        for (let i = 0; i < jsonData.length; i++) {
+          dataArr.push({name: jsonData[i].name, number: jsonData[i].number})
         }
-        setPersons(dataArr);
+        setPersons(dataArr)
         setAllPersons(dataArr)
       })
   };
 
   useEffect(hook, []);
+  
   const addPerson = (e) => {
     e.preventDefault()
-    let newObj = {name: newName, number: newNumber}
+    let newObj = [{name: newName, number: newNumber}]
     let flag = false
     for (let i = 0; i < persons.length; i++) {
       if (newName === persons[i].name) {
-        console.log(newName, persons[i].name)
         flag = true
       }
     }
     if (!flag) {
       setAllPersons(persons.concat(newObj))
+      axios
+        .post('http://localhost:3001/persons', {name: newName, number: newNumber})
+        .then(response => {
+        console.log(response)
+      })
       setPersons(persons.concat(newObj))
     } else {
       alert(`${newObj.name} is already present!`)
