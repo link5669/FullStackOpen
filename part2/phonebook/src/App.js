@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import AddPerson from './components/AddPerson'
 import People from './components/People'
 import Search from './components/Search'
@@ -16,7 +15,7 @@ const App = () => {
       let jsonData = response.persons
       let dataArr = []
       for (let i = 0; i < jsonData.length; i++) {
-        dataArr.push({name: jsonData[i].name, number: jsonData[i].number})
+        dataArr.push({name: jsonData[i].name, number: jsonData[i].number, id: jsonData[i].id})
       }
       setPersons(dataArr)
       setAllPersons(dataArr)
@@ -27,7 +26,7 @@ const App = () => {
   
   const addPerson = (e) => {
     e.preventDefault()
-    let newObj = [{name: newName, number: newNumber}]
+    let newObj = [{name: newName, number: newNumber, id: (persons.length + 1)}]
     let flag = false
     for (let i = 0; i < persons.length; i++) {
       if (newName === persons[i].name) {
@@ -36,7 +35,7 @@ const App = () => {
     }
     if (!flag) {
       setAllPersons(persons.concat(newObj))
-      phonebookService.create({name: newName, number: newNumber})
+      phonebookService.create({name: newName, number: newNumber, id: (persons.length + 1)})
       setPersons(persons.concat(newObj))
     } else {
       alert(`${newObj.name} is already present!`)
@@ -59,6 +58,18 @@ const App = () => {
     }));
   }
 
+  const deletePerson = (person) => {
+    var filtered = persons.filter(function(value, index, arr){ 
+      return value.name !== person.name;
+    });
+    setPersons(filtered)
+    var filteredAll = allPersons.filter(function(value, index, arr){ 
+      return person.name !== person.name;
+    });
+    setAllPersons(filteredAll)
+    phonebookService.deleteObj(person)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -70,7 +81,7 @@ const App = () => {
         newNumber={newNumber}
         addPerson={addPerson} />
       <h2>Numbers</h2>
-      <People persons={persons}/>
+      <People persons={persons} deletePerson={deletePerson}/>
     </div>
   )
 }
