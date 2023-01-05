@@ -14,7 +14,7 @@ const App = () => {
 
   const hook = () => {
     phonebookService.getAll().then(response =>  {
-      let jsonData = response.persons
+      let jsonData = response
       let dataArr = []
       for (let i = 0; i < jsonData.length; i++) {
         dataArr.push({name: jsonData[i].name, number: jsonData[i].number, id: jsonData[i].id})
