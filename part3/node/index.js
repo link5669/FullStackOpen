@@ -48,6 +48,19 @@ async function findAll(response) {
   })
 }
 
+app.put('/api/persons/:id', (request, response) => {
+  const updatedEntry = {
+    name: request.body.name,
+    number: request.body.number,
+    id: request.body.id
+  }
+  phonebookEntry.findByIdAndUpdate(request.body.id, updatedEntry, {new: true})
+    .then(updatedEntry => {
+      response.json(updatedEntry)
+    })
+    .catch(error => next(error))
+})
+
 app.get('/', (request, response) => {
     response.send('<h1>Hello World! Persons at <a href="/api/persons">this</a> link</h1>')
   })
