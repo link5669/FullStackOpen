@@ -7,4 +7,4 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3001/api/persons/
+GET http://localhost:3001/api/persons/63b6583200f2489318002fa8

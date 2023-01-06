@@ -1,8 +1,9 @@
 // var morgan = require('morgan')
+const mongoose = require('mongoose')
 const express = require('express')
-var finalhandler = require('finalhandler')
 const app = express()
 const cors = require('cors')
+const { json } = require('express')
 app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
@@ -10,6 +11,33 @@ app.use(express.static('build'))
 // let logger = morgan(':method :url :status :res[content-length] :body - :response-time ms')
 // app.use(logger)
 // morgan(':method :url :url :url :status :res[content-length] - :response-time ms')
+
+const password = '56695669'
+const url = `mongodb+srv://link5669:${password}@cluster0.xokpdrt.mongodb.net/myFirstDatabase`
+
+mongoose.connect(url).catch((error) => console.log(error))
+
+const phonebookSchema = new mongoose.Schema({
+  name: String,
+  number: Number,
+  id: String
+})
+
+phonebookSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
+const phonebookEntry = mongoose.model('PhonebookEntry', phonebookSchema)
+
+async function findAll(response) {
+  await phonebookEntry.find({}).then(result => {
+    response.json(result)
+  })
+}
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World! Persons at <a href="/api/persons">this</a> link</h1>')
@@ -29,62 +57,40 @@ app.get('/', (request, response) => {
   })
   
   app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    phonebookEntry.find({}).then(result => {
+      response.json(result)
+    })
   })
 
   app.post('/api/persons', (request, response) => {
-    console.log(request.body)
     if (!request.body.name || !request.body.number) {
         response.json("Must include name and number!")
         return
     }
-    if (persons.filter(person => person.name == request.body.name).length > 0) {
-        response.json("Already in phonebook!")
-        return
-    }
-    let newPerson = {
+    const newPerson = new phonebookEntry({
         name: request.body.name,
         number: request.body.number,
         id: Math.floor(Math.random() * 1000)
-    }
-    persons.push(newPerson)
+    })
+    console.log(newPerson)
+    return newPerson.save()
   })
 
   app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
-    const person = persons.find(person => person.id == id)
-    if (!person) {
-        response.json("Person not found!")
-    } else {
-        response.json(person)
-    }
+    const person = phonebookEntry.findById(id).then(result => {
+      if (result) {
+        response.json(result)
+      } else {
+        response.status(404).end()
+      }
+    }).catch(error => {
+      console.log(error)
+      response.status(500).end()
+    })
   })
   
   const PORT =  process.env.PORT || 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
-
-let persons = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]
-
