@@ -12,6 +12,15 @@ app.use(express.static('build'))
 // app.use(logger)
 // morgan(':method :url :url :url :status :res[content-length] - :response-time ms')
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+  next(error)
+}
+
+app.use(errorHandler)
 const password = '56695669'
 const url = `mongodb+srv://link5669:${password}@cluster0.xokpdrt.mongodb.net/myFirstDatabase`
 
@@ -48,12 +57,10 @@ app.get('/', (request, response) => {
   })
 
   app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => {
-        console.log(person.id, id, (person.id != id))
-        person.id != id
-    })
-    response.status(204).end()
+    phonebookEntry.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    }).catch(error => next(error))
   })
   
   app.get('/api/persons', (request, response) => {
@@ -84,10 +91,7 @@ app.get('/', (request, response) => {
       } else {
         response.status(404).end()
       }
-    }).catch(error => {
-      console.log(error)
-      response.status(500).end()
-    })
+    }).catch(error => next(error))
   })
   
   const PORT =  process.env.PORT || 3001
