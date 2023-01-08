@@ -47,9 +47,18 @@ const App = () => {
       }
     }
     if (!flag) {
-      setAllPersons(persons.concat(newObj))
-      phonebookService.create({name: newName, number: newNumber, id: newID})
-      setPersons(persons.concat(newObj))
+      phonebookService
+        .create({name: newName, number: newNumber, id: newID})
+        .then(value => {
+          setAllPersons(persons.concat(newObj))
+          setPersons(persons.concat(newObj))
+        })
+        .catch(error => {
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
     } else {
       if (window.confirm(`Replace ${newObj.name}'s old number with the new one?'`)) {
         let newPersons = []
