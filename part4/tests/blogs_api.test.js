@@ -1,4 +1,3 @@
-const { response } = require('express')
 const supertest = require('supertest')
 const app = require('../app')
 
@@ -60,4 +59,32 @@ test('see if sending invalid data results in proper status code', async () => {
     .post('/api/blogs')
     .send(newNote)
     .expect(400)
+})
+
+test('see if deleting a note works', async () => {
+  const firstResponse = await api.get('/api/blogs')
+  const id = firstResponse.body[0].id
+  await api
+    .delete(`/api/blogs/${id}`)
+    .expect(204)
+  const secondResponse = await api.get('/api/blogs')
+  expect(secondResponse.body).toHaveLength(firstResponse.body.length - 1)
+})
+
+test('see if updating a note works', async () => {
+  const firstResponse = await api.get('/api/blogs')
+  const id = firstResponse.body[0].id
+  const updatedNote = {
+    title: 'Updated Note',
+    author: 'Updated author',
+    url: 'http://updatednote.com',
+    likes: 0,
+    id: id
+  }
+  await api
+    .put(`/api/blogs/${id}`)
+    .send(updatedNote)
+    .expect(200)
+  const secondResponse = await api.get('/api/blogs')
+  expect(secondResponse.body[0].title).toEqual('Updated Note')
 })
