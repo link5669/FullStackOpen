@@ -51,3 +51,13 @@ test('see if likes defaults to 0 if not included', async () => {
   // console.log("aa",response.body[response.body.length - 1].likes)
   expect(response.body[response.body.length - 1].likes).toEqual(0)
 })
+
+test('see if sending invalid data results in proper status code', async () => {
+  const newNote = {
+    author: 'New Author'
+  }
+  await api
+    .post('/api/blogs')
+    .send(newNote)
+    .expect(400)
+})
