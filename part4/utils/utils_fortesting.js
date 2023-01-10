@@ -22,6 +22,58 @@ const favBlog = (blogs) => {
   return fav
 }
 
+const favAuthor = (blogs) => {
+  if (blogs.length === 0) {
+    return null
+  }
+  let authorLikes = []
+  blogs.forEach(blog => {
+    let found = false
+    for (let i = 0; i < authorLikes.length; i++) {
+      if (authorLikes[i].author === blog.author) {
+        authorLikes[i].likes += blog.likes
+        found = true
+      }
+    }
+    if (!found) {
+      authorLikes.push({ author: blog.author, likes: blog.likes })
+    }
+  })
+  let mostLikedIndex = 0
+  for (let i = 0; i < authorLikes.length; i++) {
+    if (authorLikes[i].likes > authorLikes[mostLikedIndex]) {
+      mostLikedIndex = i
+    }
+  }
+  return authorLikes[mostLikedIndex].author
+}
+
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return null
+  }
+  let blogCounts = []
+  blogs.forEach(blog => {
+    let found = false
+    for (let i = 0; i < blogCounts.length; i++) {
+      if (blogCounts[i].author === blog.author) {
+        blogCounts[i].likes += 1
+        found = true
+      }
+    }
+    if (!found) {
+      blogCounts.push({ author: blog.author, likes: 1 })
+    }
+  })
+  let mostBlogsIndex = 0
+  for (let i = 0; i < blogCounts.length; i++) {
+    if (blogCounts[i].likes > blogCounts[mostBlogsIndex]) {
+      mostBlogsIndex = i
+    }
+  }
+  return blogCounts[mostBlogsIndex].author
+}
+
 module.exports = {
-  dummy, totalLikes, favBlog
+  dummy, totalLikes, favBlog, favAuthor, mostBlogs
 }
