@@ -9,6 +9,10 @@ blogsRouter.get('/', (request, response) => {
     })
 })
 
+blogsRouter.get('/test', (request, response) => {
+  response.send('Hello World!')
+})
+
 blogsRouter.post('/', (request, response) => {
   console.log(request)
   const blog = new Blog({
