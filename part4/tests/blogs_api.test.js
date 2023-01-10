@@ -22,3 +22,18 @@ test('all notes have an id property', async () => {
     expect(response.body[i].id).toBeDefined()
   }
 })
+
+test('POSTing a new note adds the new note', async () => {
+  const firstResponse = await api.get('/api/blogs')
+  const newNote = {
+    title: 'New Note',
+    author: 'New Author',
+    url: 'http://newnote.com',
+    likes: 0
+  }
+  await api
+    .post('/api/blogs')
+    .send(newNote)
+  const secondResponse = await api.get('/api/blogs')
+  expect(secondResponse.body).toHaveLength(firstResponse.body.length + 1)
+})
