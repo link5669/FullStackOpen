@@ -7,6 +7,5 @@ content-type: application/json
 {
     "title":"testatitle",
     "author":"testauthor",
-    "url":"testurl",
-    "likes":0
+    "url":"testurl"
 }

@@ -14,12 +14,11 @@ blogsRouter.get('/test', (request, response) => {
 })
 
 blogsRouter.post('/', (request, response) => {
-  console.log(request)
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
-    likes: request.body.likes
+    likes: request.body.likes || 0
   })
   blog
     .save()

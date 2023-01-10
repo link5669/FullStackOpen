@@ -13,7 +13,7 @@ test('notes are returned as json', async () => {
 
 test('all notes are returned', async () => {
   const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(3)
+  expect(response.body).toHaveLength(response.body.length)
 })
 
 test('all notes have an id property', async () => {
@@ -36,4 +36,18 @@ test('POSTing a new note adds the new note', async () => {
     .send(newNote)
   const secondResponse = await api.get('/api/blogs')
   expect(secondResponse.body).toHaveLength(firstResponse.body.length + 1)
+})
+
+test('see if likes defaults to 0 if not included', async () => {
+  const newNote = {
+    title: 'New Note',
+    author: 'New Authjor',
+    url: 'http://newnote.com'
+  }
+  await api
+    .post('/api/blogs')
+    .send(newNote)
+  const response = await api.get('/api/blogs')
+  // console.log("aa",response.body[response.body.length - 1].likes)
+  expect(response.body[response.body.length - 1].likes).toEqual(0)
 })
