@@ -16,15 +16,17 @@ content-type: application/json
 
 POST http://localhost:3003/api/users
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2M2JlMjRjMjE1MmQzNDEzZTMwMTBkMjkiLCJpYXQiOjE2NzM0NDYzMTB9.EvXYTpldiYo3GkUuaN4MbZptD9oE8gPjwgPyGIivTYc
 
 {
-    "username":"testuser",
+    "username":"testusera",
     "password":"testpassword"
 }
 
 ###
 
 GET http://localhost:3003/api/users
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2M2JlMjRjMjE1MmQzNDEzZTMwMTBkMjkiLCJpYXQiOjE2NzM0NDYzMTB9.EvXYTpldiYo3GkUuaN4MbZptD9oE8gPjwgPyGIivTYc
 
 ###
 

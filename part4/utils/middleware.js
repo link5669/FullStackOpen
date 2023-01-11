@@ -1,4 +1,5 @@
 const logger = require('./logger')
+const jwt = require('jsonwebtoken')
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'Unknown endpoint!' })
@@ -6,7 +7,6 @@ const unknownEndpoint = (request, response) => {
 
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message)
-
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
@@ -20,6 +20,20 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
+const tokenExtractor = (request, response, next) => {
+  const token = getTokenFrom(request)
+  request.token = token
+  next()
+}
+
 module.exports = {
-  unknownEndpoint, errorHandler
+  unknownEndpoint, errorHandler, tokenExtractor
 }
