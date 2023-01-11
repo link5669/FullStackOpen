@@ -7,7 +7,9 @@ content-type: application/json
 {
     "title":"testatitle",
     "author":"testauthor",
-    "url":"testurl"
+    "url":"testurl",
+    "likes": 0,
+    "user": "63be2aab5672d3889a39b627"
 }
 
 ###
@@ -23,3 +25,5 @@ content-type: application/json
 ###
 
 GET http://localhost:3003/api/users
+
+###

@@ -8,12 +8,6 @@ const middleware = require('./utils/middleware')
 const config = require('./utils/config')
 require('express-async-errors')
 
-// const listen = () => {
-//   app.listen(config.PORT, () => {
-//     console.log(`Server running on port ${config.PORT}`)
-//   })
-// }
-
 mongoose.connect(config.MONGODB_URI)
 
 app.use(cors())
