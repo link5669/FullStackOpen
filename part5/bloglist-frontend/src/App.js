@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Login from './components/Login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +14,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setURL] = useState('')
+  const [notificationMsg, setNotificationMsg] = useState(null)
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value)
@@ -58,7 +60,11 @@ const App = () => {
       url: url
     }
     const result = await blogService.create(newBlog, token)
-    setBlogs(blogs.concat(result))
+    setBlogs(blogs.concat(newBlog))
+    setNotificationMsg(`New blog posted! ${newBlog.title} by ${newBlog.author}`)
+    setTimeout(() => {
+      setNotificationMsg(null)
+    }, 5000)
   }
 
   useEffect(() => {
@@ -83,16 +89,17 @@ const App = () => {
   if (user === null) {
     return (
       <>
-      <Login
-      handleUsernameChange={handleUsernameChange}
-      handlePasswordChange={handlePasswordChange}
-      login={login}>
-      </Login>
+        <Login
+        handleUsernameChange={handleUsernameChange}
+        handlePasswordChange={handlePasswordChange}
+        login={login}>
+        </Login>
       </>
     )
   } else {
     return (
     <div>
+      <Notification message={notificationMsg}/>
       <h2>blogs</h2>
       <button onClick={logout}>log out</button>
       {blogs.map(blog =>
