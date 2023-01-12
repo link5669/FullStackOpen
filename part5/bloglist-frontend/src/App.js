@@ -16,14 +16,6 @@ const App = () => {
   const [url, setURL] = useState('')
   const [notificationMsg, setNotificationMsg] = useState(null)
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
   const login = async (event) => {
     event.preventDefault()
     const userInfo = await loginService.login(username, password)
@@ -45,18 +37,6 @@ const App = () => {
     setToken('')
     window.localStorage.removeItem('username')
     window.localStorage.removeItem('token')
-  }
-
-  const handleTitleChange = (event) => { 
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => { 
-    setAuthor(event.target.value)
-  }
-
-  const handleURLChange = (event) => { 
-    setURL(event.target.value)
   }
 
   const createNewBlog = async (event) => {
@@ -98,8 +78,8 @@ const App = () => {
       <>
       <Notification message={notificationMsg}/>
         <Login
-        handleUsernameChange={handleUsernameChange}
-        handlePasswordChange={handlePasswordChange}
+        handleUsernameChange={(e) => setUsername(e.target.value)}
+        handlePasswordChange={(e) => setPassword(e.target.value)}
         login={login}>
         </Login>
       </>
@@ -115,11 +95,12 @@ const App = () => {
       )}
       <h2>add new blog</h2>
       <form>
-        <input onChange={handleTitleChange} type="text" placeholder="Title" />
-        <input onChange={handleAuthorChange} type="text" placeholder="Author" />
-        <input onChange={handleURLChange} type="text" placeholder="URL" />
+        <input onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Title" />
+        <input onChange={(e) => setAuthor(e.target.value)} type="text" placeholder="Author" />
+        <input onChange={(e) => setURL(e.targ.etvalue)} type="text" placeholder="URL" />
         <button onClick={createNewBlog}>submit</button>
       </form>
+      <p>{title}</p>
     </div>
     )
   }
