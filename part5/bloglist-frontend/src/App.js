@@ -56,6 +56,22 @@ const App = () => {
     }, 5000)
   }
 
+  const like = async (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    const newBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      id: blog.id,
+      user: blog.user
+    }
+    await blogService.addLike(token, newBlog)
+      .catch(error => {console.log(error)})
+    const newBlogs = await blogService.getAll(token)
+    setBlogs(newBlogs)
+  }
+
   useEffect(() => {
     const username = window.localStorage.getItem('username')
     const localToken = window.localStorage.getItem('token')
@@ -93,7 +109,7 @@ const App = () => {
       <h2>blogs</h2>
       <button onClick={logout}>log out</button>
       {blogs.map(blog =>
-        <Blog blog={blog} />
+        <Blog like={like} blog={blog} />
       )}
       <Toggleable buttonLabel={'New blog'}>
         <NewBlog setTitle={setTitle} setAuthor={setAuthor} setURL={setURL} createNewBlog={createNewBlog}/>
