@@ -1,32 +1,32 @@
 GET http://localhost:3003/api/blogs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2M2JlMjRjMjE1MmQzNDEzZTMwMTBkMjkiLCJpYXQiOjE2NzM0NDYzMTB9.EvXYTpldiYo3GkUuaN4MbZptD9oE8gPjwgPyGIivTYc
 
 ###
 POST http://localhost:3003/api/blogs
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pYSIsImlkIjoiNjNiZjdkOWFhZGJlNjBmNjZlZGUzNzE4IiwiaWF0IjoxNjczNDkzOTI1fQ.2oanos9197ZQIohFIA_GeLOHS2rwx9PjAvr8_1-mQ_0
 
 {
-    "title":"testatitle",
-    "author":"testauthor",
+    "title":"delete me now please!",
+    "author":"delete",
     "url":"testurl",
-    "likes": 0,
-    "user": "63be2aab5672d3889a39b627"
+    "likes": 0
 }
 
 ###
 
 POST http://localhost:3003/api/users
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2M2JlMjRjMjE1MmQzNDEzZTMwMTBkMjkiLCJpYXQiOjE2NzM0NDYzMTB9.EvXYTpldiYo3GkUuaN4MbZptD9oE8gPjwgPyGIivTYc
 
 {
-    "username":"testusera",
-    "password":"testpassword"
+    "username":"mia",
+    "password":"5669"
 }
 
 ###
 
 GET http://localhost:3003/api/users
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2M2JlMjRjMjE1MmQzNDEzZTMwMTBkMjkiLCJpYXQiOjE2NzM0NDYzMTB9.EvXYTpldiYo3GkUuaN4MbZptD9oE8gPjwgPyGIivTYc
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2M2JlMjRjMjE1MmQzNDEzZTMwMTBkMjkiLCJpYXQiOjE2NzM0OTM1Mjl9.WUBNculQljxdJusmzlzmyjzrIHwkfxucHYstZ4kzQS4
 
 ###
 
@@ -34,6 +34,11 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username":"testuser",
-    "password":"testpassword"
+    "username":"mia",
+    "password":"5669"
 }
+
+###
+
+DELETE http://localhost:3003/api/blogs/63bf7ea1ddd699b2ec5d34c0
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pYSIsImlkIjoiNjNiZjdkOWFhZGJlNjBmNjZlZGUzNzE4IiwiaWF0IjoxNjczNDkzOTI1fQ.2oanos9197ZQIohFIA_GeLOHS2rwx9PjAvr8_1-mQ_0

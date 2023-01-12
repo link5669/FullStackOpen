@@ -20,13 +20,14 @@ blogsRouter.post('/', async (request, response) => {
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
-  const user = await User.findById(request.body.user)
+  const user = await User.findById(decodedToken.id)
+  console.log(decodedToken.id)
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
     likes: request.body.likes || 0,
-    user: user.id
+    user: decodedToken.id
   })
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
@@ -35,7 +36,18 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
+  const blog = await Blog.findById(request.params.id)
+  const decodedToken = jwt.verify(request.token, 'shared_secret')
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  console.log(blog.user.toString(), user.toString())
+  if (blog.user.toString() !== user._id.toString()) {
+    return response.status(401).json({ error: 'user not authorized' })
+  } else {
+    await Blog.findByIdAndRemove(request.params.id)
+  }
   response.status(204).end()
 })
 
