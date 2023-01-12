@@ -7,7 +7,7 @@ content-type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pYSIsImlkIjoiNjNiZjdkOWFhZGJlNjBmNjZlZGUzNzE4IiwiaWF0IjoxNjczNDkzOTI1fQ.2oanos9197ZQIohFIA_GeLOHS2rwx9PjAvr8_1-mQ_0
 
 {
-    "title":"delete me now please!",
+    "title":"delete me now please yaaaaa!",
     "author":"delete",
     "url":"testurl",
     "likes": 0
@@ -40,5 +40,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3003/api/blogs/63bf7ea1ddd699b2ec5d34c0
+DELETE http://localhost:3003/api/blogs/63bf812799868b51ac397ddb
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pYSIsImlkIjoiNjNiZjdkOWFhZGJlNjBmNjZlZGUzNzE4IiwiaWF0IjoxNjczNDkzOTI1fQ.2oanos9197ZQIohFIA_GeLOHS2rwx9PjAvr8_1-mQ_0
