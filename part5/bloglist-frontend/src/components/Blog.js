@@ -1,6 +1,13 @@
+import Toggleable from "./Toggleable"
+
 const Blog = ({blog}) => (
   <div>
-    {blog.title} {blog.author}
+    {blog.title}
+    <Toggleable buttonLabel={'Show Info'}>
+      {blog.author}
+      <br/>
+      {blog.url}
+    </Toggleable>
   </div>  
 )
 
