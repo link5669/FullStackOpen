@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Login from './components/Login'
 import Notification from './components/Notification'
+import Toggleable from './components/Toggleable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -93,6 +94,7 @@ const App = () => {
       {blogs.map(blog =>
         <Blog blog={blog} />
       )}
+      <Toggleable buttonLabel={'New blog'}>
       <h2>add new blog</h2>
       <form>
         <input onChange={(e) => setTitle(e.target.value)} type="text" placeholder="Title" />
@@ -100,7 +102,7 @@ const App = () => {
         <input onChange={(e) => setURL(e.targ.etvalue)} type="text" placeholder="URL" />
         <button onClick={createNewBlog}>submit</button>
       </form>
-      <p>{title}</p>
+      </Toggleable>
     </div>
     )
   }
