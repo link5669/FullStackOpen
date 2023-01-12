@@ -30,12 +30,17 @@ const getTokenFrom = (request) => {
 }
 
 const tokenExtractor = (request, response, next) => {
+  // console.log(request)
   const token = getTokenFrom(request)
   request.token = token
+  console.log(request.token)
   next()
 }
 
 const userExtractor = async (request, response, next) => {
+  // if (request.originalUrl === '/api/login') {
+  //   return next()
+  // }
   const decodedToken = jwt.verify(request.token, 'shared_secret')
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
