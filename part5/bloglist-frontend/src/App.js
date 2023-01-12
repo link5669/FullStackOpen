@@ -27,6 +27,13 @@ const App = () => {
   const login = async (event) => {
     event.preventDefault()
     const userInfo = await loginService.login(username, password)
+      .catch(error => { 
+        setNotificationMsg('Invalid username or password')
+      setTimeout(() => {
+        setNotificationMsg(null)
+      }, 5000)
+    })
+
     setToken(userInfo.token)
     setUser(userInfo.username)
     window.localStorage.setItem('username', userInfo.username)
@@ -86,9 +93,10 @@ const App = () => {
     }
   }, [token])
 
-  if (user === null) {
+  if (user === '') {
     return (
       <>
+      <Notification message={notificationMsg}/>
         <Login
         handleUsernameChange={handleUsernameChange}
         handlePasswordChange={handlePasswordChange}
