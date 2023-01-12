@@ -31,7 +31,6 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   const user = request.user
-  console.log(blog.user.toString(), user.toString())
   if (blog.user.toString() !== user._id.toString()) {
     return response.status(401).json({ error: 'user not authorized' })
   } else {

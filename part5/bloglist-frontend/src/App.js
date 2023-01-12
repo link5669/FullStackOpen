@@ -21,12 +21,22 @@ const App = () => {
   const login = async (event) => {
     event.preventDefault()
     setUser(await loginService.login(username, password).username)
+    window.localStorage.setItem('username', username)
+  }
+  
+  const logout = () => {
+    setUser(null)
+    window.localStorage.removeItem('username')
   }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
+    const loggedIn = window.localStorage.getItem('username')
+    if (loggedIn) {
+      setUser(loggedIn)
+    }
   }, [])
 
   if (user === null) {
@@ -43,6 +53,7 @@ const App = () => {
     return (
     <div>
       <h2>blogs</h2>
+      <button onClick={logout}>log out</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
