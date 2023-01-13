@@ -27,4 +27,12 @@ const create = async (newBlog, token) => {
     })
 }
 
-export default { getAll, create, addLike }
+const deleteBlog = async (token, id) => {
+  const authKey = `bearer ${token}`
+  const request = await axios
+    .delete(`${baseUrl}/${id}`, {
+      headers: { Authorization: authKey }
+    })
+}
+
+export default { getAll, create, addLike, deleteBlog}

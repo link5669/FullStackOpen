@@ -72,6 +72,16 @@ const App = () => {
     setBlogs(newBlogs.sort((a,b) => b.likes - a.likes))
   }
 
+  const deleteBlog = async (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    if (window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
+      await blogService.deleteBlog(token, id)
+        .catch(error => {console.log(error)})
+      const newBlogs = await blogService.getAll(token)
+      setBlogs(newBlogs.sort((a,b) => b.likes - a.likes))
+    }
+  }
+
   useEffect(() => {
     const username = window.localStorage.getItem('username')
     const localToken = window.localStorage.getItem('token')
@@ -109,7 +119,7 @@ const App = () => {
       <h2>blogs</h2>
       <button onClick={logout}>log out</button>
       {blogs.map(blog =>
-        <Blog like={like} blog={blog} />
+        <Blog like={like} deleteBlog={deleteBlog} blog={blog} />
       )}
       <Toggleable buttonLabel={'New blog'}>
         <NewBlog setTitle={setTitle} setAuthor={setAuthor} setURL={setURL} createNewBlog={createNewBlog}/>
