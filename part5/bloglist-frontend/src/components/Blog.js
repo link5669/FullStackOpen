@@ -6,7 +6,9 @@ const Blog = ({ blog, like, deleteBlog }) => (
     <Toggleable buttonLabel={'Show Info'}>
       {blog.author}
       <br/>
-      {blog.url}
+      <div>
+        {blog.url}
+      </div>
       <br/>
       Likes: {blog.likes}
       <br/>
