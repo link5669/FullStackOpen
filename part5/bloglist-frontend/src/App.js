@@ -49,7 +49,7 @@ const App = () => {
       url: url
     }
     const result = await blogService.create(newBlog, token)
-    setBlogs(blogs.concat(newBlog))
+    setBlogs(blogs.concat(newBlog).sort((a,b) => b.likes - a.likes))
     setNotificationMsg(`New blog posted! ${newBlog.title} by ${newBlog.author}`)
     setTimeout(() => {
       setNotificationMsg(null)
@@ -69,7 +69,7 @@ const App = () => {
     await blogService.addLike(token, newBlog)
       .catch(error => {console.log(error)})
     const newBlogs = await blogService.getAll(token)
-    setBlogs(newBlogs)
+    setBlogs(newBlogs.sort((a,b) => b.likes - a.likes))
   }
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const App = () => {
     if (token !== '') {
       const fetchData = async () => {
         const result = await blogService.getAll(token)
-        setBlogs(result)
+        setBlogs(result.sort((a,b) => b.likes - a.likes))
       }
       fetchData()
     }
