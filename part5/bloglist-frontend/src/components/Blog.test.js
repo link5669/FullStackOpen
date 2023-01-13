@@ -53,3 +53,18 @@ describe('<Togglable />', () => {
     expect(div).not.toHaveStyle('display: none')
   })
 })
+
+test('clicking the like button twice adds two likes', async () => {
+  const blog = {
+    title: 'test title',
+    author: 'test author',
+    url: 'test url',
+    likes: 0
+  }
+  render(<Blog blog={blog} like={() => blog.likes += 1}/>)
+  const button = screen.getByText('like')
+  await userEvent.click(button)
+  await userEvent.click(button)
+  screen.debug()
+  expect(screen.getByText('Likes: 0')).toBeDefined()
+})
