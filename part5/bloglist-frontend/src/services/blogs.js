@@ -4,8 +4,8 @@ const baseUrl = 'http://localhost:3003/api/blogs'
 const getAll = async (token) => {
   const authKey = `bearer ${token}`
   const request = await axios
-    .get(baseUrl, { 
-      headers: { Authorization: authKey } 
+    .get(baseUrl, {
+      headers: { Authorization: authKey }
     })
   return request.data
 }
@@ -13,18 +13,19 @@ const getAll = async (token) => {
 const addLike = async (token, newObject) => {
   const authKey = `bearer ${token}`
   const request =  await axios
-    .put(`${baseUrl}/${newObject.id}`, newObject, { 
+    .put(`${baseUrl}/${newObject.id}`, newObject, {
       headers: { Authorization: authKey }
-  })
+    })
   return request.data
 }
 
 const create = async (newBlog, token) => {
   const authKey = `bearer ${token}`
   const request = await axios
-    .post(baseUrl, newBlog, { 
-      headers: { Authorization: authKey } 
+    .post(baseUrl, newBlog, {
+      headers: { Authorization: authKey }
     })
+  return request.data
 }
 
 const deleteBlog = async (token, id) => {
@@ -33,6 +34,7 @@ const deleteBlog = async (token, id) => {
     .delete(`${baseUrl}/${id}`, {
       headers: { Authorization: authKey }
     })
+  return request.data
 }
 
-export default { getAll, create, addLike, deleteBlog}
+export default { getAll, create, addLike, deleteBlog }

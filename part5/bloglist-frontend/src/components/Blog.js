@@ -1,6 +1,6 @@
-import Toggleable from "./Toggleable"
+import Toggleable from './Toggleable'
 
-const Blog = ({blog, like, deleteBlog}) => (
+const Blog = ({ blog, like, deleteBlog }) => (
   <div>
     {blog.title}
     <Toggleable buttonLabel={'Show Info'}>
@@ -13,7 +13,7 @@ const Blog = ({blog, like, deleteBlog}) => (
       <button onClick={() => deleteBlog(blog.id)}>Delete</button>
       <button onClick={() => like(blog.id)}>like</button>
     </Toggleable>
-  </div>  
+  </div>
 )
 
 export default Blog

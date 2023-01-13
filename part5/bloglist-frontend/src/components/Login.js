@@ -5,9 +5,9 @@ const Login = ({ handleUsernameChange, handlePasswordChange, login }) => {
         <input onChange={handleUsernameChange} type="text" placeholder="Username" />
         <input onChange={handlePasswordChange} type="password" placeholder="Password" />
       </form>
-        <button onClick={login}>Log In</button>
+      <button onClick={login}>Log In</button>
     </>
-  );
+  )
 }
 
 export default Login

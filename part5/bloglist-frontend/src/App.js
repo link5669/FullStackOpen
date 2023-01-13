@@ -21,19 +21,19 @@ const App = () => {
   const login = async (event) => {
     event.preventDefault()
     const userInfo = await loginService.login(username, password)
-      .catch(error => { 
-        setNotificationMsg('Invalid username or password')
-      setTimeout(() => {
-        setNotificationMsg(null)
-      }, 5000)
-    })
+      .catch(error => {
+        setNotificationMsg('Invalid username or password', error)
+        setTimeout(() => {
+          setNotificationMsg(null)
+        }, 5000)
+      })
 
     setToken(userInfo.token)
     setUser(userInfo.username)
     window.localStorage.setItem('username', userInfo.username)
     window.localStorage.setItem('token', userInfo.token)
   }
-  
+
   const logout = () => {
     setUser('')
     setToken('')
@@ -48,7 +48,7 @@ const App = () => {
       author: author,
       url: url
     }
-    const result = await blogService.create(newBlog, token)
+    await blogService.create(newBlog, token)
     setBlogs(blogs.concat(newBlog).sort((a,b) => b.likes - a.likes))
     setNotificationMsg(`New blog posted! ${newBlog.title} by ${newBlog.author}`)
     setTimeout(() => {
@@ -104,27 +104,27 @@ const App = () => {
   if (user === '') {
     return (
       <>
-      <Notification message={notificationMsg}/>
+        <Notification message={notificationMsg}/>
         <Login
-        handleUsernameChange={(e) => setUsername(e.target.value)}
-        handlePasswordChange={(e) => setPassword(e.target.value)}
-        login={login}>
+          handleUsernameChange={(e) => setUsername(e.target.value)}
+          handlePasswordChange={(e) => setPassword(e.target.value)}
+          login={login}>
         </Login>
       </>
     )
   } else {
     return (
-    <div>
-      <Notification message={notificationMsg}/>
-      <h2>blogs</h2>
-      <button onClick={logout}>log out</button>
-      {blogs.map(blog =>
-        <Blog like={like} deleteBlog={deleteBlog} blog={blog} />
-      )}
-      <Toggleable buttonLabel={'New blog'}>
-        <NewBlog setTitle={setTitle} setAuthor={setAuthor} setURL={setURL} createNewBlog={createNewBlog}/>
-      </Toggleable>
-    </div>
+      <div>
+        <Notification message={notificationMsg}/>
+        <h2>blogs</h2>
+        <button onClick={logout}>log out</button>
+        {blogs.map(blog =>
+          <Blog like={like} deleteBlog={deleteBlog} blog={blog} />
+        )}
+        <Toggleable buttonLabel={'New blog'}>
+          <NewBlog setTitle={setTitle} setAuthor={setAuthor} setURL={setURL} createNewBlog={createNewBlog}/>
+        </Toggleable>
+      </div>
     )
   }
 }
