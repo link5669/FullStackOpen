@@ -7,6 +7,7 @@ const NewAnecdote = ({dispatch}) => {
         event.target.anecdote.value = ''
         dispatch(createAnecdote(content))
     }
+    
     return (
         <>
             <h2>create new</h2>
