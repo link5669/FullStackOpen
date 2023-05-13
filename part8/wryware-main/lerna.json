@@ -1,0 +1,7 @@
+{
+  "lerna": "3.13.1",
+  "useNx": true,
+  "packages": ["packages/*"],
+  "version": "independent",
+  "hoist": false
+}
