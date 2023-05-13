@@ -113,7 +113,7 @@ const typeDefs = `
   type Query {
     bookCount: Int!
     authorCount: Int!
-    allBooks(author: String): [Book!]
+    allBooks(author: String, genre: [String]): [Book!]
     allAuthors: [Author!]!
   }
 `
@@ -123,8 +123,13 @@ const resolvers = {
         bookCount: () => books.length,
         authorCount: () => authors.length,
         allBooks: (root, args) => {
-
-            return books.filter(b => b.author === args.author)
+          var filtered = books
+          if (args.author) {
+            filtered = filtered.filter(b => b.author === args.author) 
+          } 
+          if (args.genre) {
+            filtered = filtered.filter(b => b.genre === args.genre) 
+          } 
           return books
         },
         allAuthors: () => authors
