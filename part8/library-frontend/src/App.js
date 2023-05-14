@@ -4,7 +4,8 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 
 import { gql, useMutation, useQuery } from '@apollo/client'
-import { ALL_PERSONS, ALL_BOOKS, CREATE_BOOK } from './queries'
+import { ALL_PERSONS, ALL_BOOKS, CREATE_BOOK, EDIT_AUTHOR } from './queries'
+import SetBirthYear from './components/SetBirthYear'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -14,6 +15,10 @@ const App = () => {
   const booksResult = useQuery(ALL_BOOKS)
   const [ addBook ] = useMutation(CREATE_BOOK, {
     refetchQueries: [ {query: ALL_BOOKS }]
+  })
+
+  const [ updateYear ] = useMutation(EDIT_AUTHOR, {
+    refetchQueries: [ {query: ALL_PERSONS }]
   })
 
   if (personsResult.loading || booksResult.loading ) {
@@ -26,6 +31,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button onClick={() => setPage('set birth year')}>set birth year</button>
       </div>
 
       <Authors data={personsResult.data.allAuthors} show={page === 'authors'} />
@@ -33,6 +39,8 @@ const App = () => {
       <Books data={booksResult.data.allBooks} show={page === 'books'} />
 
       <NewBook addBook={addBook} show={page === 'add'} />
+
+      <SetBirthYear updateYear={updateYear} show={page === 'set birth year'}/>
     </div>
   )
 }
