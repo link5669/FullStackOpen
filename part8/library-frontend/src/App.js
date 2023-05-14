@@ -40,7 +40,7 @@ const App = () => {
 
       <NewBook addBook={addBook} show={page === 'add'} />
 
-      <SetBirthYear updateYear={updateYear} show={page === 'set birth year'}/>
+      <SetBirthYear data={personsResult.data.allAuthors} updateYear={updateYear} show={page === 'set birth year'}/>
     </div>
   )
 }
